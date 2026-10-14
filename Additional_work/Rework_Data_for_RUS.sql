@@ -1,14 +1,88 @@
-SELECT * FROM skills_dim
-LIMIT 10;
+/*Вся работа проводилась в MySQL*/;
 
-SELECT * FROM company_dim
-LIMIT 10;
+CREATE TABLE company_dim (
+    company_id int NOT NULL,
+    name text,
+    link text,
+    link_google text,
+    thumbnail text,
+    PRIMARY KEY (company_id)
+)
 
-SELECT * FROM job_postings_fact
-LIMIT 10;
+CREATE TABLE skills_dim (
+    skill_id int NOT NULL,
+    skills text,
+    type text,
+    PRIMARY KEY (skill_id)
+)
 
-SELECT * FROM skills_job_dim
-LIMIT 10;
+CREATE TABLE job_postings_fact (
+    job_id int NOT NULL,
+    company_id int DEFAULT NULL,
+    job_title_short varchar(255) DEFAULT NULL,
+    job_title text,
+    job_location text,
+    job_via text,
+    job_schedule_type text,
+    job_work_from_home tinyint(1) DEFAULT NULL,
+    search_location text,
+    job_posted_date timestamp NULL DEFAULT NULL,
+    job_no_degree_mention tinyint(1) DEFAULT NULL,
+    job_health_insurance tinyint(1) DEFAULT NULL,
+    job_country text,
+    salary_rate text,
+    salary_year_avg decimal(10,0) DEFAULT NULL,
+    salary_hour_avg decimal(10,0) DEFAULT NULL,
+    PRIMARY KEY (job_id),
+    CONSTRAINT job_postings_fact FOREIGN KEY (company_id) REFERENCES company_dim (company_id)
+)
+
+CREATE TABLE skills_job_dim (
+    job_id int NOT NULL,
+    skill_id int NOT NULL,
+    PRIMARY KEY (job_id, skill_id),
+    CONSTRAINT skills_job_dim FOREIGN KEY (job_id) REFERENCES job_postings_fact (job_id),
+    CONSTRAINT skills_job_dim FOREIGN KEY (skill_id) REFERENCES skills_dim (skill_id)
+)
+
+CREATE INDEX idx_company_id ON job_postings_fact (company_id);
+CREATE INDEX idx_skill_id ON skills_job_dim (skill_id);
+CREATE INDEX idx_job_id ON skills_job_dim (job_id);
+
+
+/* Данные в таблицы заносились через код на python
+
+# Параметры подключения к MySQL
+username = 'Имя пользователя'
+password = 'Пароль пользователя'
+host = 'Ip адрес'
+port = 'Порт'
+database = 'Имя базы данных'
+
+# Читаем CSV файл
+df = pd.read_csv(r'"Путь к csv файлу"\"Название файла".csv', sep=',')
+
+# Создаем подключение к MySQL
+engine = create_engine(f'mysql+pymysql://{username}:{password}@{host}:{port}/{database}')
+
+# Импортируем данные в таблицу
+df.to_sql('Название таблицы', con=engine, if_exists='append', index=False)
+# if_exists='append' - добавляет данные к существующей таблице
+# if_exists='replace' - перезаписывает таблицу
+*/;
+
+
+SELECT * FROM skills_dim;
+/*259 записей*/; 
+
+SELECT * FROM company_dim;
+/*140033 записи*/; 
+
+SELECT * FROM job_postings_fact;
+/*787686 записей*/; 
+
+SELECT * FROM skills_job_dim;
+/*3669604 записи*/; 
 
 /* Информация по таблице skills_dim
 1) skill_id - уникальный номер скилла
@@ -61,6 +135,12 @@ WHERE search_location LIKE '%United States';
 
 
 SELECT
+    COUNT(*)
+FROM job_postings_fact
+WHERE search_location LIKE '%Russia';
+
+
+SELECT
     job_title_short,
     ROUND(AVG(salary_year_avg), 0) AS avg_year_salary,
     ROUND(AVG(salary_hour_avg), 0) AS avg_hour_salary,
@@ -74,10 +154,9 @@ GROUP BY job_title_short;
 
 /*
 Так как по Россси недостаточное количество данных
-(Всего 10 видов вакансий из них только у 3 есть указанная ЗП
- и то в количестве 1-2 штук что недостаточно для исследования)
+(Из 3745 вакансий только у 4 есть указанная ЗП)
 Для проведения исследования решено исследовать рынок США, ЕС и удалёнку
-(Anywhere, изначальная страна учитываться не будет) (Россия останется чисто кодом)
+(Anywhere, изначальная страна учитываться не будет), код для России остается просто для практики
 В ЕС входит 27 стран:
 Austria, Belgium, Bulgaria, Croatia, Cyprus, Czechia, Denmar, Estonia, Finland, France,
 Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembo, Malta, Netherlands,

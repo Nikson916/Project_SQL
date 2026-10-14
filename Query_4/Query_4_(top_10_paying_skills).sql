@@ -1,3 +1,9 @@
+/*
+Вопрос 4
+Какие 10 навыков для удаленной работы аналитиком данных иммеют наивысшую заработную плату?
+*/;
+
+
 SELECT
     skills,
     ROUND(AVG(project.salary_year), 0) AS avg_salary_for_skill

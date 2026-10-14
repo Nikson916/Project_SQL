@@ -1,3 +1,10 @@
+/*
+Вопрос 3
+Какие 5 самых востребованных навыков для удаленной работы аналитиком данных?
+*/;
+
+
+
 SELECT
     skills,
     COUNT(skills_job_dim.job_id) AS demand_count

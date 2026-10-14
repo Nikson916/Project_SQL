@@ -2,11 +2,8 @@ SELECT
     job_id,
     job_title,
     company_dim.name AS company_name,
-    job_title_short,
-    job_location,
     job_schedule_type,
-    salary_year_avg,
-    job_posted_date
+    salary_year_avg
 FROM job_postings_fact
 LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
 WHERE job_title_short = 'Data Analyst' AND job_location LIKE 'Anywhere' AND salary_year_avg IS NOT NULL
@@ -17,10 +14,7 @@ LIMIT 10;
 /* Запрос такой же как и Query_1 только для оригинальной таблицы
 Из-за перевода ЗП по часам в ЗП годовую в оригинальной таблице меньше значений
 
-Выводим столбцы ID, наименование вакансии, наименование компании, полное наименование вакансии, местоположение, тип графика работы, ЗП, дату вакансии.
-По задаче интересует только вакансии относящиеся к 'Data Analyst',
-с удаленным типом работы и где указанна ЗП.
-Сортировка происходит по ЗП (по убыванию) и только 10 верхних значений.
+Дальше идут запросы повторяющий запрос из Query_1, но немного изменены условия.
 */;
 
 
@@ -28,38 +22,30 @@ SELECT
     job_id,
     job_title,
     company_dim.name AS company_name,
-    job_title_short,
-    location,
     job_schedule_type,
-    salary_year,
-    job_posted_date
+    salary_year
 FROM project
 LEFT JOIN company_dim ON project.company_id = company_dim.company_id
 WHERE job_title_short LIKE 'Data Scientist' AND location LIKE 'EU' AND salary_year IS NOT NULL
 ORDER BY salary_year DESC
 LIMIT 10;
 
-/* Всё как в запросе выше, только теперь интересует вакансия  Data Scientist в EU
-*/;
+/* Наименование вакансии 'Data Scientist', местоположение 'EU' */;
 
 
 SELECT 
     job_id,
     job_title,
     company_dim.name AS company_name,
-    job_title_short,
-    location,
     job_schedule_type,
-    salary_year,
-    job_posted_date
+    salary_year
 FROM project
 LEFT JOIN company_dim ON project.company_id = company_dim.company_id
 WHERE job_title_short LIKE 'Data Engineer' AND location LIKE 'USA' AND salary_year IS NOT NULL
 ORDER BY salary_year DESC
 LIMIT 10;
 
-/* Всё как в запросе выше, только теперь интересует вакансия Data Engineer в USA
-*/;
+/* Наименование вакансии 'Data Engineer', местоположение 'USA' */;
 
 
 
@@ -68,18 +54,15 @@ SELECT
     job_title,
     company_dim.name AS company_name,
     job_title_short,
-    location,
     job_schedule_type,
-    salary_year,
-    job_posted_date
+    salary_year
 FROM project
 LEFT JOIN company_dim ON project.company_id = company_dim.company_id
 WHERE location LIKE 'Russia' AND salary_year IS NOT NULL
 ORDER BY salary_year DESC
 LIMIT 10;
 
-/* Всё вакансии где ЗП не NULL в России
-*/;
+/* Наименование вакансии любое, местоположение 'Russia' */;
 
 
 SELECT
@@ -95,7 +78,6 @@ ORDER BY salary_year DESC
 LIMIT 25;
 
 /*
-Полное и короткое наименование вакансии, наименование компании и ЗП
-Выводит все вакансии начинающиеся на Data (Data Engineer, Data Scientist и Data Analyst)
-ЗП не NULL без ограничений по локации. Топ 25 вакансий.
+Наименование вакансии любое начинающиеся на Data (Data Engineer, Data Scientist и Data Analyst), местоположеине 'Russia'
+Без ограничений по местоположению. Топ 25.
 */;
