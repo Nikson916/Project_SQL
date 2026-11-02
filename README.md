@@ -47,7 +47,7 @@ LIMIT 10;
 ```
 
 
-![10 Самых Высокооплачиваемых Вакансий Среди Аналитиков Данных](Project_SQL/Query_1/Query_1.png)
+![10 Самых Высокооплачиваемых Вакансий Среди Аналитиков Данных](Query_1/Query_1.png)
 
 
 
@@ -76,7 +76,7 @@ INNER JOIN skills_job_dim ON top_paying_jobs.job_id = skills_job_dim.job_id
 INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id;
 ```
 
-![Частота Упоминания Навыков в 10 Самых Высокооплачиваемых Вакансиях Аналитиков Данных](Project_SQL/Query_2/Query_2.png)
+![Частота Упоминания Навыков в 10 Самых Высокооплачиваемых Вакансиях Аналитиков Данных](Query_2/Query_2.png)
 
 На графике указаны навыки появляющиеся 2 и более раз
 
@@ -97,7 +97,7 @@ ORDER BY demand_count DESC
 LIMIT 10;
 ```
 
-![10 Самых Популярных Навыков для Аналитика Данных](Project_SQL/Query_3/Query_3.png)
+![10 Самых Популярных Навыков для Аналитика Данных](Query_3/Query_3.png)
 
 
 
