@@ -78,6 +78,6 @@ ORDER BY salary_year DESC
 LIMIT 25;
 
 /*
-Наименование вакансии любое начинающиеся на Data (Data Engineer, Data Scientist и Data Analyst), местоположеине 'Russia'
+Наименование вакансии любое начинающиеся на Data (Data Engineer, Data Scientist и Data Analyst)'
 Без ограничений по местоположению. Топ 25.
 */;
