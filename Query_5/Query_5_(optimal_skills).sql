@@ -3,7 +3,7 @@
 Какие 25 навыков для удаленной работы аналитиком данных являются востребованными и приносят наивысшую заработную плату?
 */;
 
-
+SELECT * FROM skills_dim;
 
 WITH demand_skills AS (
     SELECT
@@ -35,7 +35,7 @@ SELECT
 FROM skills_dim
 INNER  JOIN demand_skills ON skills_dim.skill_id = demand_skills.skill_id
 INNER  JOIN average_salary ON skills_dim.skill_id = average_salary.skill_id
-WHERE demand_count >= 10
+WHERE demand_count >= 25
 ORDER BY avg_salary_for_skill DESC, demand_count DESC
 LIMIT 25;
 
@@ -46,6 +46,6 @@ LIMIT 25;
 Вторая таблица так же ID, наименование и средняя ЗП
 Будем учитывать только вакансии Data Analyst удаленно и ЗП должна быть не NULL
 В главном запросе выводим ID скилла, наименование, количество и среднюю ЗП
-Выведем только значения где количество появления скилла больше 10.
+Выведем только значения где количество появления скилла больше 25.
 Отсортируем по средней ЗП и только потом по количеству появления скилла. Выведем только 25 верхних значений
 */

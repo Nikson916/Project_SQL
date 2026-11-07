@@ -6,6 +6,7 @@
 
 SELECT
     skills,
+    COUNT(skills_job_dim.job_id) AS demand_count,
     ROUND(AVG(project.salary_year), 0) AS avg_salary_for_skill
 FROM skills_dim
 LEFT JOIN skills_job_dim ON skills_dim.skill_id = skills_job_dim.skill_id
